@@ -1,24 +1,35 @@
 import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
+import { persist, createJSONStorage } from 'zustand/middleware';
 
 interface FavoritesState {
+  // Стан
   favorites: string[];
+
+  // Дії (Actions)
   addFavorite: (id: string) => void;
   removeFavorite: (id: string) => void;
   toggleFavorite: (id: string) => void;
   isFavorite: (id: string) => boolean;
+  clearFavorites: () => void;
+  getFavoritesCount: () => number;
 }
 
 export const useFavoritesStore = create<FavoritesState>()(
   persist(
     (set, get) => ({
+      // Початковий стан
       favorites: [],
-      addFavorite: (id) => set((state) => ({
-        favorites: [...state.favorites, id],
-      })),
+
+      // Реалізація дій (Actions)
+      addFavorite: (id) => set((state) => {
+        if (state.favorites.includes(id)) return state;
+        return { favorites: [...state.favorites, id] };
+      }),
+    
       removeFavorite: (id) => set((state) => ({
         favorites: state.favorites.filter((favId) => favId !== id),
       })),
+
       toggleFavorite: (id) => set((state) => {
         const isFavorite = state.favorites.includes(id);
         return {
@@ -27,10 +38,16 @@ export const useFavoritesStore = create<FavoritesState>()(
             : [...state.favorites, id],
         };
       }),
+
       isFavorite: (id) => get().favorites.includes(id),
+
+      clearFavorites: () => set({ favorites: [] }),
+
+      getFavoritesCount: () => get().favorites.length,
     }),
     {
-      name: 'favorites-storage',
+      name: 'campers-favorites-storage', // Ім'я в локальному сховищі
+      storage: createJSONStorage(() => localStorage),
     }
   )
 );

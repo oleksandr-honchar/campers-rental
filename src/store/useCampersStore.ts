@@ -1,12 +1,15 @@
 import { create } from 'zustand';
-import { Camper } from '@/types';
+import { Camper } from '@/types/index';
 
 interface CampersState {
+  // Стан
   campers: Camper[];
   loading: boolean;
   error: string | null;
   total: number;
   currentPage: number;
+
+  // Дії (Actions)
   setCampers: (campers: Camper[]) => void;
   addCampers: (campers: Camper[]) => void;
   setLoading: (loading: boolean) => void;
@@ -17,18 +20,31 @@ interface CampersState {
 }
 
 export const useCampersStore = create<CampersState>((set) => ({
+  // Початковий стан
   campers: [],
   loading: false,
   error: null,
   total: 0,
   currentPage: 1,
+
+  // Реалізація дій (Actions)
   setCampers: (campers) => set({ campers }),
+
   addCampers: (newCampers) => set((state) => ({ 
     campers: [...state.campers, ...newCampers] 
   })),
+
   setLoading: (loading) => set({ loading }),
+
   setError: (error) => set({ error }),
+
   setTotal: (total) => set({ total }),
+
   setCurrentPage: (page) => set({ currentPage: page }),
-  resetCampers: () => set({ campers: [], currentPage: 1 }),
+
+  resetCampers: () => set({
+    campers: [],
+    currentPage: 1,
+    error: null,
+  }),
 }));
