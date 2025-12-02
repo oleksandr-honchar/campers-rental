@@ -1,4 +1,4 @@
-import { api } from './api';
+import api from './api';
 import { ApiResponse, Camper } from '@/types';
 
 export interface GetCampersParams {

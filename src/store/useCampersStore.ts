@@ -8,6 +8,7 @@ interface CampersState {
   error: string | null;
   total: number;
   currentPage: number;
+  hasMore: boolean;
 
   // Дії (Actions)
   setCampers: (campers: Camper[]) => void;
@@ -16,6 +17,7 @@ interface CampersState {
   setError: (error: string | null) => void;
   setTotal: (total: number) => void;
   setCurrentPage: (page: number) => void;
+  setHasMore: (hasMore: boolean) => void;
   resetCampers: () => void;
 }
 
@@ -26,6 +28,7 @@ export const useCampersStore = create<CampersState>((set) => ({
   error: null,
   total: 0,
   currentPage: 1,
+  hasMore: true,
 
   // Реалізація дій (Actions)
   setCampers: (campers) => set({ campers }),
@@ -41,6 +44,8 @@ export const useCampersStore = create<CampersState>((set) => ({
   setTotal: (total) => set({ total }),
 
   setCurrentPage: (page) => set({ currentPage: page }),
+
+  setHasMore: (hasMore) => set({ hasMore }),
 
   resetCampers: () => set({
     campers: [],

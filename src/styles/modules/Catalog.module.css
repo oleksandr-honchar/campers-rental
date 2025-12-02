@@ -1,0 +1,84 @@
+.container {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+.container h1 {
+  font-size: 2rem;
+  margin-bottom: 32px;
+  color: var(--text-color);
+}
+
+.catalogGrid {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 32px;
+}
+
+.filtersSidebar {
+  position: sticky;
+  top: 20px;
+  height: fit-content;
+}
+
+.filtersCard {
+  background: var(--white);
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.filtersCard h2 {
+  font-size: 1.25rem;
+  margin-bottom: 16px;
+}
+
+.campersList {
+  min-height: 400px;
+}
+
+.campersGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.camperCard {
+  background: var(--white);
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.camperCard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.camperCard h3 {
+  font-size: 1.25rem;
+  margin-bottom: 8px;
+}
+
+.camperCard p {
+  color: var(--secondary-color);
+  margin: 4px 0;
+}
+
+.loadMore {
+  display: flex;
+  justify-content: center;
+  margin-top: 32px;
+}
+
+@media (max-width: 768px) {
+  .catalogGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .filtersSidebar {
+    position: static;
+  }
+}

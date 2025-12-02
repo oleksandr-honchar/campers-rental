@@ -6,9 +6,22 @@ import { useFiltersStore } from '@/store/useFiltersStore';
 import { getCampers } from '@/services/campers';
 import { Loader } from '@/components/ui/Loader';
 import { Button } from '@/components/ui/Button';
+import { Camper, GetCampersParams, VehicleForm } from '@/types';
+import styles from '@/styles/modules/Catalog.module.css';
 
 export default function CatalogPage() {
-  const { campers, loading, total, currentPage, setCampers, addCampers, setLoading, setTotal, setCurrentPage, resetCampers } = useCampersStore();
+  const { 
+    campers, 
+    loading, 
+    currentPage, 
+    setCampers, 
+    addCampers, 
+    setLoading, 
+    setTotal, 
+    setCurrentPage, 
+    resetCampers 
+  } = useCampersStore();
+  
   const { location, form, equipment } = useFiltersStore();
   const [hasMore, setHasMore] = useState(true);
 
@@ -18,29 +31,38 @@ export default function CatalogPage() {
     try {
       setLoading(true);
       
-      const params: any = {
+      const params: GetCampersParams = {
         page,
         limit: ITEMS_PER_PAGE,
       };
 
       if (location) params.location = location;
-      if (form) params.form = form;
+      if (form) params.form = form as VehicleForm;
       
       // Додати обране обладнання як окремі параметри
       equipment.forEach((item) => {
-        params[item] = true;
+        if (item === 'AC') params.AC = true;
+        if (item === 'kitchen') params.kitchen = true;
+        if (item === 'bathroom') params.bathroom = true;
+        if (item === 'TV') params.TV = true;
+        if (item === 'radio') params.radio = true;
+        if (item === 'refrigerator') params.refrigerator = true;
+        if (item === 'microwave') params.microwave = true;
+        if (item === 'gas') params.gas = true;
+        if (item === 'water') params.water = true;
       });
 
       const data = await getCampers(params);
       
       if (reset) {
-        setCampers(data.items);
+        setCampers(data.items as Camper[]);
       } else {
-        addCampers(data.items);
+        addCampers(data.items as Camper[]);
       }
       
       setTotal(data.total);
-      setHasMore(campers.length + data.items.length < data.total);
+      const newTotal = reset ? data.items.length : campers.length + data.items.length;
+      setHasMore(newTotal < data.total);
     } catch (error) {
       console.error('Error fetching campers:', error);
     } finally {
@@ -51,6 +73,7 @@ export default function CatalogPage() {
   useEffect(() => {
     resetCampers();
     fetchCampers(1, true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location, form, equipment]);
 
   const handleLoadMore = () => {
@@ -60,36 +83,36 @@ export default function CatalogPage() {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-8">Catalog</h1>
+    <div className={styles.container}>
+      <h1>Catalog</h1>
       
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div className={styles.catalogGrid}>
         {/* Filters Sidebar */}
-        <aside className="md:col-span-1">
-          <div className="bg-white p-6 rounded-lg shadow-md">
-            <h2 className="text-xl font-semibold mb-4">Filters</h2>
-            <p className="text-gray-500">Filter components will be added here</p>
+        <aside className={styles.filtersSidebar}>
+          <div className={styles.filtersCard}>
+            <h2>Filters</h2>
+            <p>Filter components will be added here</p>
           </div>
         </aside>
 
         {/* Campers List */}
-        <div className="md:col-span-2">
+        <div className={styles.campersList}>
           {loading && campers.length === 0 ? (
             <Loader />
           ) : (
             <>
-              <div className="space-y-6">
+              <div className={styles.campersGrid}>
                 {campers.map((camper) => (
-                  <div key={camper.id} className="bg-white p-6 rounded-lg shadow-md">
-                    <h3 className="text-xl font-semibold">{camper.name}</h3>
-                    <p className="text-gray-600">{camper.location}</p>
-                    <p className="text-lg font-bold mt-2">€{camper.price.toFixed(2)}</p>
+                  <div key={camper.id} className={styles.camperCard}>
+                    <h3>{camper.name}</h3>
+                    <p>{camper.location}</p>
+                    <p>€{camper.price.toFixed(2)}</p>
                   </div>
                 ))}
               </div>
 
               {hasMore && !loading && (
-                <div className="mt-8 text-center">
+                <div className={styles.loadMore}>
                   <Button onClick={handleLoadMore}>
                     Load More
                   </Button>
