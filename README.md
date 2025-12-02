@@ -1,36 +1,67 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Campers Rental - Next.js Application
 
-## Getting Started
+## ��� Опис проєкту
 
-First, run the development server:
+Веб-додаток для перегляду та бронювання кемперів, створений з використанням Next.js, TypeScript та Zustand.
 
-```bash
+## ��� Основні функції
+
+- Перегляд каталогу кемперів
+- Фільтрація за локацією, типом кузова та обладнанням
+- Детальна інформація про кожен кемпер
+- Додавання кемперів до обраного
+- Форма бронювання
+- Відгуки користувачів
+
+## ��� Технології
+
+- **Next.js 14** (App Router)
+- **TypeScript**
+- **Zustand** (управління станом)
+- **Axios** (HTTP запити)
+- **Tailwind CSS** (стилізація)
+
+## ��� Встановлення
+
+\`\`\`bash
+# Клонування репозиторію
+git clone <repository-url>
+
+# Перехід в директорію проєкту
+cd campers-rental
+
+# Встановлення залежностей
+npm install
+
+# Запуск проєкту в режимі розробки
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+\`\`\`
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Додаток буде доступний за адресою: http://localhost:3000
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## ��� Структура проєкту
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+\`\`\`
+src/
+├── app/              # Next.js App Router
+├── components/       # React компоненти
+├── types/           # TypeScript типи
+├── services/        # API сервіси
+├── store/           # Zustand стори
+├── utils/           # Допоміжні функції
+└── constants/       # Константи
+\`\`\`
 
-## Learn More
+## ��� API
 
-To learn more about Next.js, take a look at the following resources:
+Проєкт використовує MockAPI:
+- Base URL: https://66b1f8e71ca8ad33d4f5f63e.mockapi.io
+- Документація: https://github.com/mockapi-io/docs/wiki
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## ��� Автор
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+[Ваше ім'я]
 
-## Deploy on Vercel
+## ��� Ліцензія
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+MIT
