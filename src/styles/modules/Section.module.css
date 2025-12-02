@@ -1,0 +1,46 @@
+.section {
+  width: 100%;
+}
+
+.white {
+  background: var(--white);
+}
+
+.gray {
+  background: var(--bg-color);
+}
+
+.gradient {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: var(--white);
+}
+
+.padding-none {
+  padding: 0;
+}
+
+.padding-small {
+  padding: 24px 0;
+}
+
+.padding-medium {
+  padding: 48px 0;
+}
+
+.padding-large {
+  padding: 80px 0;
+}
+
+@media (max-width: 768px) {
+  .padding-small {
+    padding: 16px 0;
+  }
+
+  .padding-medium {
+    padding: 32px 0;
+  }
+
+  .padding-large {
+    padding: 48px 0;
+  }
+}
