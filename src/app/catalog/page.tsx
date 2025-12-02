@@ -39,7 +39,6 @@ export default function CatalogPage() {
       if (location) params.location = location;
       if (form) params.form = form as VehicleForm;
       
-      // Додати обране обладнання як окремі параметри
       equipment.forEach((item) => {
         if (item === 'AC') params.AC = true;
         if (item === 'kitchen') params.kitchen = true;
@@ -87,7 +86,6 @@ export default function CatalogPage() {
       <h1>Catalog</h1>
       
       <div className={styles.catalogGrid}>
-        {/* Filters Sidebar */}
         <aside className={styles.filtersSidebar}>
           <div className={styles.filtersCard}>
             <h2>Filters</h2>
@@ -95,7 +93,6 @@ export default function CatalogPage() {
           </div>
         </aside>
 
-        {/* Campers List */}
         <div className={styles.campersList}>
           {loading && campers.length === 0 ? (
             <Loader />

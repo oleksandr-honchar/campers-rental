@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { Button } from '@/components/ui/Button';
+import { ROUTES } from '@/constants/routes';
 import styles from '@/styles/modules/Home.module.css';
 
 export default function Home() {
@@ -13,7 +14,7 @@ export default function Home() {
           <p className={styles.subtitle}>
             You can find everything you want in our catalog
           </p>
-          <Link href="/catalog">
+          <Link href={ROUTES.CATALOG}>
             <Button variant="primary">
               View Now
             </Button>
