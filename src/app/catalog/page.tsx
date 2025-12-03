@@ -43,6 +43,7 @@ export default function CatalogPage() {
       
       equipment.forEach((item) => {
         if (item === 'AC') params.AC = true;
+        if (item === 'transmission') params.transmission = 'automatic';  // ← Додайте цей рядок
         if (item === 'kitchen') params.kitchen = true;
         if (item === 'bathroom') params.bathroom = true;
         if (item === 'TV') params.TV = true;
