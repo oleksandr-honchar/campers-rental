@@ -4,6 +4,17 @@ import { useState } from 'react';
 import styles from './FiltersSidebar.module.css';
 import { FiltersState, EquipmentType } from '@/types/filters';
 import { VehicleForm } from '@/types';
+import {
+  LocationIcon,
+  ACIcon,
+  AutomaticIcon,
+  KitchenIcon,
+  TVIcon,
+  BathroomIcon,
+  VanIcon,
+  FullyIntegratedIcon,
+  AlcoveIcon,
+} from './icons';
 
 interface FiltersSidebarProps {
   onSearch: (filters: FiltersState) => void;
@@ -19,12 +30,33 @@ const EQUIPMENT_OPTIONS: Array<{ id: EquipmentType; label: string }> = [
   { id: 'bathroom', label: 'Bathroom' }
 ];
 
+// Мапа іконок для обладнання
+const EQUIPMENT_ICONS: Record<EquipmentType, React.ComponentType<{ className?: string }>> = {
+  AC: ACIcon,
+  transmission: AutomaticIcon,
+  kitchen: KitchenIcon,
+  TV: TVIcon,
+  bathroom: BathroomIcon,
+  radio: ACIcon,
+  refrigerator: KitchenIcon,
+  microwave: KitchenIcon,
+  gas: KitchenIcon,
+  water: BathroomIcon,
+};
+
 // Типи транспорту
 const VEHICLE_TYPES: Array<{ id: VehicleForm; label: string }> = [
   { id: 'panelTruck', label: 'Van' },
   { id: 'fullyIntegrated', label: 'Fully Integrated' },
   { id: 'alcove', label: 'Alcove' }
 ];
+
+// Мапа іконок для типів транспорту
+const VEHICLE_TYPE_ICONS: Record<VehicleForm, React.ComponentType<{ className?: string }>> = {
+  panelTruck: VanIcon,
+  fullyIntegrated: FullyIntegratedIcon,
+  alcove: AlcoveIcon,
+};
 
 export default function FiltersSidebar({ 
   onSearch,
@@ -84,7 +116,7 @@ export default function FiltersSidebar({
           Location
         </label>
         <div className={styles.locationWrapper}>
-          <span className={styles.locationIcon}>📍</span>
+        <LocationIcon className={styles.locationIcon} />
           <input
             id="location"
             type="text"
@@ -112,7 +144,10 @@ export default function FiltersSidebar({
                 }`}
                 onClick={() => handleEquipmentToggle(option.id)}
               >
-                <span className={styles.equipmentIcon}>⚙️</span>
+                {(() => {
+                  const Icon = EQUIPMENT_ICONS[option.id];
+                  return <Icon className={styles.equipmentIcon} />;
+                })()}
                 <span className={styles.equipmentLabel}>{option.label}</span>
               </div>
             ))}
@@ -133,7 +168,10 @@ export default function FiltersSidebar({
               }`}
               onClick={() => handleVehicleTypeChange(type.id)}
             >
-              <span className={styles.vehicleTypeIcon}>🚐</span>
+              {(() => {
+                const Icon = VEHICLE_TYPE_ICONS[type.id];
+                return <Icon className={styles.vehicleTypeIcon} />;
+              })()}
               <span className={styles.vehicleTypeLabel}>{type.label}</span>
             </div>
           ))}
