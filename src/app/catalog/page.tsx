@@ -6,7 +6,9 @@ import { useFiltersStore } from '@/store/useFiltersStore';
 import { getCampers } from '@/services/campers';
 import { Loader } from '@/components/ui/Loader';
 import { CamperCard } from '@/components/catalog/CamperCard';
+import FiltersSidebar from '@/components/FiltersSidebar';
 import { Camper, GetCampersParams, VehicleForm } from '@/types';
+import { FiltersState } from '@/types/filters';
 import styles from '@/styles/modules/Catalog.module.css';
 
 export default function CatalogPage() {
@@ -22,7 +24,7 @@ export default function CatalogPage() {
     resetCampers 
   } = useCampersStore();
   
-  const { location, form, equipment } = useFiltersStore();
+  const { location, form, equipment, setLocation, setForm, toggleEquipment, clearEquipment } = useFiltersStore();
   const [hasMore, setHasMore] = useState(true);
 
   const ITEMS_PER_PAGE = 4;
@@ -62,8 +64,16 @@ export default function CatalogPage() {
       setTotal(data.total);
       const newTotal = reset ? data.items.length : campers.length + data.items.length;
       setHasMore(newTotal < data.total);
-    } catch (error) {
-      console.error('Error fetching campers:', error);
+} catch (error) {
+      // Якщо помилка 404 - просто показуємо порожній список (без логування)
+      if (error && typeof error === 'object' && 'status' in error && error.status === 404) {
+        setCampers([]);
+        setTotal(0);
+        setHasMore(false);
+      } else {
+        // Логуємо тільки реальні помилки (не 404)
+        console.error('Error fetching campers:', error);
+      }
     } finally {
       setLoading(false);
     }
@@ -81,17 +91,35 @@ export default function CatalogPage() {
     fetchCampers(nextPage, false);
   };
 
+  const handleSearch = (filters: FiltersState) => {
+    // Оновлюємо стор з новими фільтрами
+    setLocation(filters.location);
+    setForm(filters.form);
+    
+    // Оновлюємо equipment: спочатку очищаємо, потім додаємо нові
+    clearEquipment();
+    filters.equipment.forEach(item => {
+      toggleEquipment(item);
+    });
+
+    // Скидаємо сторінку та кемпери
+    resetCampers();
+    setCurrentPage(1);
+  };
+
   return (
     <div className={styles.container}>
       <h1>Catalog</h1>
       
       <div className={styles.catalogGrid}>
-        <aside className={styles.filtersSidebar}>
-          <div className={styles.filtersCard}>
-            <h2>Filters</h2>
-            <p>Filter components will be added here</p>
-          </div>
-        </aside>
+        <FiltersSidebar 
+          onSearch={handleSearch}
+          initialFilters={{
+            location,
+            form,
+            equipment
+          }}
+        />
 
         <div className={styles.campersList}>
           {loading && campers.length === 0 ? (
@@ -114,11 +142,11 @@ export default function CatalogPage() {
                 </div>
               )}
 
-                {loading && campers.length > 0 && (
-                  <div className={styles.loaderWrapper}>
+              {loading && campers.length > 0 && (
+                <div className={styles.loaderWrapper}>
                   <Loader />
-                  </div>
-                )}
+                </div>
+              )}
             </>
           )}
         </div>

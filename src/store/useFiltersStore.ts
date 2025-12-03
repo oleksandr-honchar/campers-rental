@@ -1,15 +1,17 @@
 import { create } from 'zustand';
+import { EquipmentType } from '@/types/filters';
+import { VehicleForm } from '@/types/camper';
 
 interface FiltersState {
   // Стан
   location: string;
-  form: string;
-  equipment: string[];
+  form: VehicleForm | '';
+  equipment: EquipmentType[];
 
   // Дії (Actions)
   setLocation: (location: string) => void;
-  setForm: (form: string) => void;
-  toggleEquipment: (equipment: string) => void;
+  setForm: (form: VehicleForm | '') => void;
+  toggleEquipment: (equipment: EquipmentType) => void;
   clearEquipment: () => void;
   resetFilters: () => void;
   hasActiveFilters: () => boolean;
@@ -18,7 +20,7 @@ interface FiltersState {
 export const useFiltersStore = create<FiltersState>((set, get) => ({
   // Початковий стан
   location: '',
-  form: '',
+  form: '' as VehicleForm | '',
   equipment: [],
 
   // Реалізація дій (Actions)
@@ -39,7 +41,7 @@ export const useFiltersStore = create<FiltersState>((set, get) => ({
 
   resetFilters: () => set({
     location: '',
-    form: '',
+    form: '' as VehicleForm | '',
     equipment: []
   }),
 

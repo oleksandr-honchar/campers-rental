@@ -29,9 +29,32 @@ api.interceptors.request.use(
     
     return config;
   },
-  (error: AxiosError) => {
-    console.error('❌ Request Error:', error);
-    return Promise.reject(error);
+(error: AxiosError) => {
+    // Обробка помилок
+    const apiError: ApiError = {
+      message: error.message || 'An error occurred',
+      status: error.response?.status || 500,
+      data: error.response?.data as Record<string, unknown> | undefined,
+    };
+
+    // Логування помилки (крім 404 - це нормально коли немає результатів)
+    if (apiError.status !== 404) {
+      console.error('❌ Response Error:', {
+        status: apiError.status,
+        message: apiError.message,
+        url: error.config?.url,
+      });
+    }
+
+    // Можна додати обробку специфічних статусів
+    if (apiError.status === 401) {
+      // Неавторизований - можна редіректити на login
+      console.error('Unauthorized - redirect to login');
+    } else if (apiError.status >= 500) {
+      console.error('Server error');
+    }
+
+    return Promise.reject(apiError);
   }
 );
 
@@ -52,19 +75,18 @@ api.interceptors.response.use(
       data: error.response?.data as Record<string, unknown> | undefined,
     };
 
-    // Логування помилки
-    console.error('❌ Response Error:', {
-      status: apiError.status,
-      message: apiError.message,
-      url: error.config?.url,
-    });
+    // Логування помилки (404 - це нормально, коли немає результатів)
+    if (process.env.NODE_ENV === 'development' && apiError.status !== 404) {
+      console.error('❌ Response Error:', {
+        status: apiError.status,
+        message: apiError.message,
+        url: error.config?.url,
+      });
+    }
 
-    // Можна додати обробку специфічних статусів
+    // Обробка специфічних статусів (без логування для 404)
     if (apiError.status === 401) {
-      // Неавторизований - можна редіректити на login
       console.error('Unauthorized - redirect to login');
-    } else if (apiError.status === 404) {
-      console.error('Resource not found');
     } else if (apiError.status >= 500) {
       console.error('Server error');
     }
