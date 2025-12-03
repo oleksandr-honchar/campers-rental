@@ -1,0 +1,57 @@
+.heroSection {
+  background: linear-gradient(
+    rgba(0, 0, 0, 0.3),
+    rgba(0, 0, 0, 0.3)
+  ),
+  url('/images/hero-bg.jpg') center/cover no-repeat;
+  min-height: calc(100vh - 72px);
+  display: flex;
+  align-items: center;
+}
+
+.hero {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  padding: 0 64px;
+}
+
+.content {
+  text-align: left;
+  color: #fff;
+  max-width: 571px;
+}
+
+.title {
+  font-size: 48px;
+  font-weight: 600;
+  line-height: 1.25;
+  margin: 0 0 16px 0;
+  color: #f7f7f7;
+}
+
+.subtitle {
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1.33;
+  margin: 0 0 40px 0;
+  color: #f7f7f7;
+}
+
+.ctaButton {
+  min-width: 173px;
+  padding: 16px 60px;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.5;
+  color: #fff;
+  background-color: #E44848;
+  border: none;
+  border-radius: 200px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.ctaButton:hover {
+  background-color: #d84343;
+}

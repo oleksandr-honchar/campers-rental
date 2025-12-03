@@ -34,31 +34,31 @@
 /* Sizes */
 .small {
   padding: 8px 16px;
-  font-size: 14px;
-  border-radius: 8px;
+  font-size: 16px;
+  border-radius: 200px;
 }
 
 .medium {
   padding: 12px 24px;
-  font-size: 16px;
+  font-size: 200px;
 }
 
 .large {
   padding: 16px 32px;
   font-size: 18px;
-  border-radius: 14px;
+  border-radius: 200px;
 }
 
 /* Variants */
 .primary {
-  background: var(--primary-color);
+  background: #E44848;
   color: var(--white);
 }
 
-.primary:hover:not(:disabled) {
+/* .primary:hover:not(:disabled) {
   background: #d63838;
   box-shadow: 0 4px 12px rgba(228, 72, 72, 0.3);
-}
+} */
 
 .secondary {
   background: var(--secondary-color);
