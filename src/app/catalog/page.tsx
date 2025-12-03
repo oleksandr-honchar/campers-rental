@@ -5,7 +5,7 @@ import { useCampersStore } from '@/store/useCampersStore';
 import { useFiltersStore } from '@/store/useFiltersStore';
 import { getCampers } from '@/services/campers';
 import { Loader } from '@/components/ui/Loader';
-import { Button } from '@/components/ui/Button';
+import { CamperCard } from '@/components/catalog/CamperCard';
 import { Camper, GetCampersParams, VehicleForm } from '@/types';
 import styles from '@/styles/modules/Catalog.module.css';
 
@@ -95,28 +95,30 @@ export default function CatalogPage() {
 
         <div className={styles.campersList}>
           {loading && campers.length === 0 ? (
-            <Loader />
+            <div className={styles.loaderWrapper}>
+              <Loader />
+            </div>
           ) : (
             <>
               <div className={styles.campersGrid}>
                 {campers.map((camper) => (
-                  <div key={camper.id} className={styles.camperCard}>
-                    <h3>{camper.name}</h3>
-                    <p>{camper.location}</p>
-                    <p>€{camper.price.toFixed(2)}</p>
-                  </div>
+                  <CamperCard key={camper.id} camper={camper} />
                 ))}
               </div>
 
               {hasMore && !loading && (
                 <div className={styles.loadMore}>
-                  <Button onClick={handleLoadMore}>
-                    Load More
-                  </Button>
+                  <button onClick={handleLoadMore}>
+                    Load more
+                  </button>
                 </div>
               )}
 
-              {loading && campers.length > 0 && <Loader />}
+                {loading && campers.length > 0 && (
+                  <div className={styles.loaderWrapper}>
+                  <Loader />
+                  </div>
+                )}
             </>
           )}
         </div>

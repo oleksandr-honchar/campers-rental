@@ -1,7 +1,6 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { Button } from '@/components/ui/Button';
 import { Container } from '@/components/layout/Container';
 import { Section } from '@/components/layout/Section';
 import styles from './Hero.module.css';
@@ -24,14 +23,12 @@ export default function Hero() {
             <p className={styles.subtitle}>
               You can find everything you want in our catalog
             </p>
-            <Button
-              variant="primary"
-              size="large"
+            <button
               onClick={handleViewCatalog}
               className={styles.ctaButton}
             >
               View Now
-            </Button>
+            </button>
           </div>
         </div>
       </Container>

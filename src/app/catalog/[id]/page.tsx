@@ -6,7 +6,6 @@ import Image from 'next/image';
 import { getCamperById } from '@/services/campers';
 import { Camper } from '@/types';
 import { Loader } from '@/components/ui/Loader';
-import { Button } from '@/components/ui/Button';
 import { ROUTES } from '@/constants/routes';
 import styles from '@/styles/modules/CamperDetails.module.css';
 
@@ -41,7 +40,9 @@ export default function CamperDetailsPage() {
   if (loading) {
     return (
       <div className={styles.container}>
-        <Loader />
+        <div className={styles.loaderWrapper}>
+          <Loader />
+        </div>
       </div>
     );
   }
@@ -52,9 +53,12 @@ export default function CamperDetailsPage() {
         <div className={styles.error}>
           <h1>Camper not found</h1>
           <p>{error || 'The camper you are looking for does not exist.'}</p>
-          <Button onClick={() => router.push(ROUTES.CATALOG)}>
+          <button 
+            onClick={() => router.push(ROUTES.CATALOG)}
+            className={styles.backToCatalogButton}
+          >
             Back to Catalog
-          </Button>
+          </button>
         </div>
       </div>
     );
@@ -62,13 +66,12 @@ export default function CamperDetailsPage() {
 
   return (
     <div className={styles.container}>
-      <Button 
-        variant="outline" 
+      <button 
         onClick={() => router.push(ROUTES.CATALOG)}
         className={styles.backButton}
       >
         ← Back to Catalog
-      </Button>
+      </button>
 
       <div className={styles.header}>
         <h1>{camper.name}</h1>
@@ -78,6 +81,7 @@ export default function CamperDetailsPage() {
         </div>
         <p className={styles.price}>€{camper.price.toFixed(2)}</p>
       </div>
+      
       <div className={styles.gallery}>
         {camper.gallery.map((image, index) => (
           <Image 
