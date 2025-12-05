@@ -132,6 +132,9 @@
 }
 
 .features {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   height: 588px;
   background-color: #f7f7f7;
   border-radius: 10px;
@@ -149,7 +152,7 @@
   align-items: center;
   gap: 8px;
   padding: 12px 18px;
-  background-color: #dadde1;
+  background-color: #f2f4f7;
   border-radius: 100px;
   font-size: 16px;
   font-weight: 500;
@@ -162,16 +165,25 @@
   height: 20px;
   stroke: #101828;
   fill: none;
+  flex-shrink: 0;
 }
 
-/* Для іконок, які мають fill */
+/* Для іконок зі stroke */
+.featureIcon path,
+.featureIcon circle,
+.featureIcon rect,
+.featureIcon line {
+  stroke: #101828;
+}
+
+/* Для іконок з fill */
 .featureIcon path[fill]:not([fill="none"]) {
   fill: #101828;
-  stroke: none;
 }
 
 .vehicleDetails {
-  padding-top: 100px;
+  padding-top: 24px;
+  margin-top: auto;
 }
 
 .vehicleDetailsTitle {
