@@ -89,3 +89,13 @@ export interface CamperCard {
   kitchen: boolean;
   bathroom: boolean;
 }
+
+export interface CamperReview {
+  reviewer_name: string;
+  reviewer_rating: number;
+  comment: string;
+}
+
+export interface CamperDetails extends Camper {
+  reviews: CamperReview[];
+}

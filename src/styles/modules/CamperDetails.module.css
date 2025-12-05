@@ -1,74 +1,72 @@
 .container {
-  min-height: calc(100vh - 72px);
+  max-width: 1440px;
+  margin: 0 auto;
   padding: 48px 64px;
 }
 
-.loaderWrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 400px;
-}
-
-.backButton {
-  padding: 12px 24px;
-  font-size: 16px;
-  font-weight: 500;
-  line-height: 1.5;
-  border-radius: 200px;
-  background-color: transparent;
-  color: #101828;
-  border: 1px solid #e4e4e4;
-  cursor: pointer;
-  transition: border-color 0.3s ease;
-  margin-bottom: 24px;
-}
-
-.backButton:hover {
-  border-color: #E44848;
-}
-
 .header {
-  margin-bottom: 32px;
+  margin-bottom: 28px;
 }
 
-.header h1 {
-  font-size: 32px;
+.title {
+  font-size: 24px;
   font-weight: 600;
   line-height: 1.25;
   color: #101828;
-  margin: 0 0 12px 0;
+  margin-bottom: 8px;
 }
 
-.meta {
+.ratingLocation {
   display: flex;
   align-items: center;
   gap: 16px;
-  margin-bottom: 8px;
-  font-size: 16px;
-  color: #475467;
+  margin-bottom: 16px;
 }
 
-.rating,
+.rating {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #101828;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.starIcon {
+  width: 16px;
+  height: 16px;
+  fill: #ffc531;
+}
+
 .location {
   display: flex;
   align-items: center;
   gap: 4px;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #101828;
+}
+
+.locationIcon {
+  width: 16px;
+  height: 16px;
+  stroke: #101828;
 }
 
 .price {
   font-size: 24px;
   font-weight: 600;
-  line-height: 1.33;
+  line-height: 1.25;
   color: #101828;
-  margin: 0;
 }
 
 .gallery {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 16px;
-  margin-bottom: 32px;
+  margin-bottom: 28px;
 }
 
 .galleryImage {
@@ -79,102 +77,159 @@
 }
 
 .description {
-  margin-bottom: 32px;
   font-size: 16px;
   line-height: 1.5;
   color: #475467;
+  margin-bottom: 44px;
 }
 
-.description p {
-  margin: 0;
+.content {
+  display: grid;
+  grid-template-columns: 1fr 448px;
+  gap: 24px;
 }
 
 .tabs {
-  display: flex;
-  gap: 8px;
   border-bottom: 1px solid #dadde1;
-  margin-bottom: 24px;
+  margin-bottom: 44px;
 }
 
-.tab,
-.tabActive {
-  padding: 12px 24px;
+.tabList {
+  display: flex;
+  gap: 40px;
+}
+
+.tab {
+  position: relative;
+  padding: 0 0 24px 0;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.2;
+  color: #101828;
   background: none;
   border: none;
-  font-size: 16px;
-  font-weight: 500;
-  line-height: 1.5;
   cursor: pointer;
-  transition: all 0.3s ease;
-  border-bottom: 2px solid transparent;
-  margin-bottom: -1px;
-  color: #475467;
-}
-
-.tabActive {
-  color: #101828;
-  border-bottom-color: #E44848;
-  font-weight: 600;
+  opacity: 0.6;
+  transition: opacity 0.3s;
 }
 
 .tab:hover {
-  color: #101828;
+  opacity: 0.8;
 }
 
-.tabContent {
-  min-height: 300px;
+.tabActive {
+  opacity: 1;
+}
+
+.tabActive::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 5px;
+  background-color: #e44848;
+  border-radius: 2px 2px 0 0;
 }
 
 .features {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 48px;
+  margin-bottom: 100px;
 }
 
-.featuresSection h3 {
-  font-size: 20px;
-  font-weight: 600;
-  line-height: 1.4;
-  color: #101828;
-  margin: 0 0 24px 0;
-}
-
-.featuresSection ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
+.featuresList {
   display: flex;
-  flex-direction: column;
-  gap: 16px;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 44px;
 }
 
-.featuresSection li {
-  font-size: 16px;
-  font-weight: 500;
-  line-height: 1.5;
-  color: #101828;
+.featureItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
   padding: 12px 18px;
   background: #f2f4f7;
-  border-radius: 10px;
+  border-radius: 100px;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.25;
+  color: #101828;
+}
+
+.featureIcon {
+  width: 20px;
+  height: 20px;
+}
+
+.vehicleDetails {
+  padding-top: 24px;
+}
+
+.vehicleDetailsTitle {
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.2;
+  color: #101828;
+  margin-bottom: 24px;
+}
+
+.detailsList {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.detailItem {
+  display: flex;
+  justify-content: space-between;
+  font-size: 18px;
+  line-height: 1.33;
+  color: #101828;
+}
+
+.detailLabel {
+  text-transform: capitalize;
 }
 
 .reviews {
+  margin-bottom: 100px;
+}
+
+.reviewsList {
   display: flex;
   flex-direction: column;
   gap: 24px;
 }
 
-.review {
-  padding: 24px;
-  background: #f7f7f7;
-  border-radius: 10px;
+.reviewItem {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
 .reviewHeader {
   display: flex;
-  justify-content: space-between;
+  gap: 16px;
+}
+
+.reviewerAvatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: #f2f4f7;
+  display: flex;
   align-items: center;
-  margin-bottom: 16px;
+  justify-content: center;
+  font-size: 24px;
+  font-weight: 600;
+  color: #e44848;
+  flex-shrink: 0;
+}
+
+.reviewerInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 
 .reviewerName {
@@ -184,17 +239,144 @@
   color: #101828;
 }
 
-.reviewRating {
-  font-size: 16px;
-  color: #FFC531;
+.reviewStars {
+  display: flex;
+  gap: 4px;
+}
+
+.reviewStar {
+  width: 16px;
+  height: 16px;
+}
+
+.starFilled {
+  fill: #ffc531;
+}
+
+.starEmpty {
+  fill: #f2f4f7;
 }
 
 .reviewComment {
   font-size: 16px;
-  font-weight: 400;
   line-height: 1.5;
   color: #475467;
-  margin: 0;
+}
+
+.bookingForm {
+  position: sticky;
+  top: 24px;
+  padding: 44px 48px;
+  background: #ffffff;
+  border: 1px solid #dadde1;
+  border-radius: 10px;
+  height: fit-content;
+}
+
+.formTitle {
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.2;
+  color: #101828;
+  margin-bottom: 8px;
+}
+
+.formSubtitle {
+  font-size: 16px;
+  line-height: 1.5;
+  color: #475467;
+  margin-bottom: 24px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.input,
+.textarea {
+  padding: 18px;
+  background: #f7f7f7;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  line-height: 1.25;
+  color: #101828;
+}
+
+.input::placeholder,
+.textarea::placeholder {
+  color: rgba(16, 24, 40, 0.6);
+}
+
+.textarea {
+  min-height: 114px;
+  resize: vertical;
+}
+
+.submitButton {
+  margin-top: 10px;
+  padding: 16px 60px;
+  background: #e44848;
+  border: none;
+  border-radius: 200px;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.5;
+  color: #ffffff;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.submitButton:hover {
+  background: #d84343;
+}
+
+.favoriteButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 16px 40px;
+  background: #e44848;
+  border: none;
+  border-radius: 200px;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.5;
+  color: #ffffff;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-bottom: 28px;
+}
+
+.favoriteButton:hover {
+  background: #d84343;
+}
+
+.favoriteButtonActive {
+  background: #d84343;
+}
+
+.heartIcon {
+  width: 20px;
+  height: 20px;
+  stroke: #ffffff;
+  fill: none;
+  transition: fill 0.3s;
+}
+
+.heartIconFilled {
+  fill: #ffffff;
+}
+
+.loader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 400px;
+  font-size: 18px;
+  color: #475467;
 }
 
 .error {
@@ -202,37 +384,32 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 16px;
   min-height: 400px;
-  text-align: center;
+  gap: 16px;
 }
 
-.error h1 {
-  font-size: 32px;
+.errorTitle {
+  font-size: 24px;
   font-weight: 600;
   color: #101828;
-  margin: 0;
 }
 
-.error p {
+.errorMessage {
   font-size: 16px;
   color: #475467;
-  margin: 0 0 24px 0;
 }
 
-.backToCatalogButton {
-  padding: 16px 32px;
+.backButton {
+  padding: 12px 24px;
+  background: #e44848;
+  border: none;
+  border-radius: 200px;
   font-size: 16px;
   font-weight: 500;
-  line-height: 1.5;
-  border-radius: 200px;
-  background-color: #E44848;
-  color: #fff;
-  border: none;
+  color: #ffffff;
   cursor: pointer;
-  transition: background-color 0.3s ease;
 }
 
-.backToCatalogButton:hover {
-  background-color: #D84343;
+.backButton:hover {
+  background: #d84343;
 }
