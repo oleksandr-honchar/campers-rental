@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { getCamperById } from '@/services/campers';
-import { useFavoritesStore } from '@/store/useFavoritesStore';
+// import { useFavoritesStore } from '@/store/useFavoritesStore';
 import { Camper } from '@/types';
 import { Loader } from '@/components/ui/Loader';
 import { ROUTES } from '@/constants/routes';
@@ -21,9 +21,9 @@ export default function CamperDetailsPage() {
   const [error, setError] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<'features' | 'reviews'>('features');
 
-  const { favorites, toggleFavorite } = useFavoritesStore();
-  const camperId = params.id as string;
-  const isFavorite = camperId ? favorites.includes(camperId) : false;
+  // const { favorites, toggleFavorite } = useFavoritesStore();
+  // const camperId = params.id as string;
+  // const isFavorite = camperId ? favorites.includes(camperId) : false;
 
   useEffect(() => {
     const fetchCamper = async () => {

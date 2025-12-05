@@ -218,8 +218,9 @@
 }
 
 .reviews {
-  margin-bottom: 100px;
-  height: 588px;
+  min-height: 527px;
+  display: flex;
+  flex-direction: column;
 }
 
 .reviewsList {

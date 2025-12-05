@@ -1,5 +1,6 @@
 import React from 'react';
-import { CamperReview } from '@/types/camper';
+import { CamperReview } from '@/types';
+import { StarIcon } from '@/components/ui/icons';
 import styles from '@/styles/modules/CamperDetails.module.css';
 
 interface CamperReviewsProps {
@@ -10,12 +11,10 @@ const CamperReviews: React.FC<CamperReviewsProps> = ({ reviews }) => {
   // Функція для генерації зірок
   const renderStars = (rating: number) => {
     return Array.from({ length: 5 }, (_, index) => (
-      <svg
+      <StarIcon
         key={index}
         className={`${styles.reviewStar} ${index < rating ? styles.starFilled : styles.starEmpty}`}
-      >
-        <use href="/sprite.svg#star" />
-      </svg>
+      />
     ));
   };
 
@@ -23,6 +22,14 @@ const CamperReviews: React.FC<CamperReviewsProps> = ({ reviews }) => {
   const getInitial = (name: string) => {
     return name.charAt(0).toUpperCase();
   };
+
+  if (!reviews || reviews.length === 0) {
+    return (
+      <div className={styles.reviews}>
+        <p className={styles.noReviews}>No reviews yet</p>
+      </div>
+    );
+  }
 
   return (
     <div className={styles.reviews}>
