@@ -4,10 +4,14 @@ import { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { getCamperById } from '@/services/campers';
+import { useFavoritesStore } from '@/store/useFavoritesStore';
 import { Camper } from '@/types';
 import { Loader } from '@/components/ui/Loader';
 import { ROUTES } from '@/constants/routes';
+import CamperFeatures from '@/components/CamperFeatures';
+import CamperReviews from '@/components/CamperReviews';
 import styles from '@/styles/modules/CamperDetails.module.css';
+import { StarIcon, LocationIcon } from '@/components/ui/icons';
 
 export default function CamperDetailsPage() {
   const params = useParams();
@@ -16,6 +20,10 @@ export default function CamperDetailsPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<'features' | 'reviews'>('features');
+
+  const { favorites, toggleFavorite } = useFavoritesStore();
+  const camperId = params.id as string;
+  const isFavorite = camperId ? favorites.includes(camperId) : false;
 
   useEffect(() => {
     const fetchCamper = async () => {
@@ -37,10 +45,23 @@ export default function CamperDetailsPage() {
     }
   }, [params.id]);
 
+  // Обробка форми бронювання
+  const handleBookingSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    alert('Booking successful! We will contact you soon.');
+    e.currentTarget.reset();
+  };
+
+  // Форматування локації
+  const formatLocation = (location: string) => {
+    const parts = location.split(', ');
+    return parts.length >= 2 ? `${parts[1]}, ${parts[0]}` : location;
+  };
+
   if (loading) {
     return (
       <div className={styles.container}>
-        <div className={styles.loaderWrapper}>
+        <div className={styles.loader}>
           <Loader />
         </div>
       </div>
@@ -51,11 +72,13 @@ export default function CamperDetailsPage() {
     return (
       <div className={styles.container}>
         <div className={styles.error}>
-          <h1>Camper not found</h1>
-          <p>{error || 'The camper you are looking for does not exist.'}</p>
+          <h1 className={styles.errorTitle}>Camper not found</h1>
+          <p className={styles.errorMessage}>
+            {error || 'The camper you are looking for does not exist.'}
+          </p>
           <button 
             onClick={() => router.push(ROUTES.CATALOG)}
-            className={styles.backToCatalogButton}
+            className={styles.backButton}
           >
             Back to Catalog
           </button>
@@ -66,106 +89,116 @@ export default function CamperDetailsPage() {
 
   return (
     <div className={styles.container}>
-      <button 
-        onClick={() => router.push(ROUTES.CATALOG)}
-        className={styles.backButton}
-      >
-        ← Back to Catalog
-      </button>
-
+      {/* Header з назвою, рейтингом, локацією та ціною */}
       <div className={styles.header}>
-        <h1>{camper.name}</h1>
-        <div className={styles.meta}>
-          <span className={styles.rating}>⭐ {camper.rating}</span>
-          <span className={styles.location}>📍 {camper.location}</span>
-        </div>
+        <h1 className={styles.title}>{camper.name}</h1>
+        
+<div className={styles.ratingLocation}>
+  <div className={styles.rating} onClick={() => setActiveTab('reviews')}>
+    <StarIcon className={styles.starIcon} />
+    <span>
+      {camper.rating} ({camper.reviews.length}{' '}
+      {camper.reviews.length === 1 ? 'Review' : 'Reviews'})
+    </span>
+  </div>
+  
+  <div className={styles.location}>
+    <LocationIcon className={styles.locationIcon} />
+    <span>{formatLocation(camper.location)}</span>
+  </div>
+</div>
+
         <p className={styles.price}>€{camper.price.toFixed(2)}</p>
       </div>
-      
+
+      {/* Галерея фотографій (перші 4 зображення) */}
       <div className={styles.gallery}>
-        {camper.gallery.map((image, index) => (
-          <Image 
-            key={index} 
-            src={image.original} 
+        {camper.gallery.slice(0, 4).map((image, index) => (
+          <Image
+            key={index}
+            src={image.original}
             alt={`${camper.name} - ${index + 1}`}
+            width={292}
+            height={312}
             className={styles.galleryImage}
-            width={800}
-            height={600}
+            priority={index === 0}
           />
         ))}
       </div>
 
-      <div className={styles.description}>
-        <p>{camper.description}</p>
-      </div>
+      {/* Опис */}
+      <p className={styles.description}>{camper.description}</p>
 
+      {/* Tabs - виносимо за межі content */}
       <div className={styles.tabs}>
-        <button
-          className={activeTab === 'features' ? styles.tabActive : styles.tab}
-          onClick={() => setActiveTab('features')}
-        >
-          Features
-        </button>
-        <button
-          className={activeTab === 'reviews' ? styles.tabActive : styles.tab}
-          onClick={() => setActiveTab('reviews')}
-        >
-          Reviews
-        </button>
+        <div className={styles.tabList}>
+          <div
+            className={`${styles.tab} ${activeTab === 'features' ? styles.tabActive : ''}`}
+            onClick={() => setActiveTab('features')}
+          >
+            Features
+          </div>
+          <div
+            className={`${styles.tab} ${activeTab === 'reviews' ? styles.tabActive : ''}`}
+            onClick={() => setActiveTab('reviews')}
+          >
+            Reviews
+          </div>
+        </div>
       </div>
 
-      <div className={styles.tabContent}>
-        {activeTab === 'features' ? (
-          <div className={styles.features}>
-            <div className={styles.featuresSection}>
-              <h3>Vehicle Equipment</h3>
-              <ul>
-                <li>Transmission: {camper.transmission}</li>
-                <li>Engine: {camper.engine}</li>
-                {camper.AC && <li>✓ AC</li>}
-                {camper.bathroom && <li>✓ Bathroom</li>}
-                {camper.kitchen && <li>✓ Kitchen</li>}
-                {camper.TV && <li>✓ TV</li>}
-                {camper.radio && <li>✓ Radio</li>}
-                {camper.refrigerator && <li>✓ Refrigerator</li>}
-                {camper.microwave && <li>✓ Microwave</li>}
-                {camper.gas && <li>✓ Gas</li>}
-                {camper.water && <li>✓ Water</li>}
-              </ul>
+      {/* Основний контент: Features/Reviews + Форма бронювання */}
+      <div className={styles.content}>
+        {/* Ліва частина: Tab Content */}
+        <div>
+          {activeTab === 'features' ? (
+            <CamperFeatures camper={camper} />
+          ) : (
+            <CamperReviews reviews={camper.reviews} />
+          )}
+        </div>
+
+        {/* Права частина: Форма бронювання */}
+        <div className={styles.bookingForm}>
+          <h3 className={styles.formTitle}>Book your campervan now</h3>
+          <p className={styles.formSubtitle}>
+            Stay connected! We are always ready to help you.
+          </p>
+
+          <form onSubmit={handleBookingSubmit} className={styles.form}>
+            <input
+              type="text"
+              name="name"
+              placeholder="Name*"
+              required
+              className={styles.input}
+            />
+            <input
+              type="email"
+              name="email"
+              placeholder="Email*"
+              required
+              className={styles.input}
+            />
+            <input
+              type="date"
+              name="bookingDate"
+              placeholder="Booking date*"
+              required
+              className={styles.input}
+            />
+            <textarea
+              name="comment"
+              placeholder="Comment"
+              className={styles.textarea}
+            />
+            <button type="submit" className={styles.submitButton}>
+              Send
+            </button>
+          </form>
+        </div>
             </div>
-            
-            <div className={styles.featuresSection}>
-              <h3>Vehicle Details</h3>
-              <ul>
-                <li>Form: {camper.form}</li>
-                <li>Length: {camper.length}</li>
-                <li>Width: {camper.width}</li>
-                <li>Height: {camper.height}</li>
-                <li>Tank: {camper.tank}</li>
-                <li>Consumption: {camper.consumption}</li>
-              </ul>
-            </div>
-          </div>
-        ) : (
-          <div className={styles.reviews}>
-            {camper.reviews.length > 0 ? (
-              camper.reviews.map((review, index) => (
-                <div key={index} className={styles.review}>
-                  <div className={styles.reviewHeader}>
-                    <span className={styles.reviewerName}>{review.reviewer_name}</span>
-                    <span className={styles.reviewRating}>
-                      {'⭐'.repeat(review.reviewer_rating)}
-                    </span>
-                  </div>
-                  <p className={styles.reviewComment}>{review.comment}</p>
-                </div>
-              ))
-            ) : (
-              <p>No reviews yet</p>
-            )}
-          </div>
-        )}
-      </div>
     </div>
+
   );
 }

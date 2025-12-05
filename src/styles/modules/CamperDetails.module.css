@@ -37,7 +37,7 @@
 .starIcon {
   width: 16px;
   height: 16px;
-  fill: #ffc531;
+  color: #ffc531;
 }
 
 .location {
@@ -85,13 +85,14 @@
 
 .content {
   display: grid;
-  grid-template-columns: 1fr 448px;
-  gap: 24px;
+  grid-template-columns: 641px 588px;
+  gap: 40px;
 }
 
 .tabs {
   border-bottom: 1px solid #dadde1;
   margin-bottom: 44px;
+  width: 100%;
 }
 
 .tabList {
@@ -106,8 +107,6 @@
   font-weight: 600;
   line-height: 1.2;
   color: #101828;
-  background: none;
-  border: none;
   cursor: pointer;
   opacity: 0.6;
   transition: opacity 0.3s;
@@ -133,14 +132,16 @@
 }
 
 .features {
-  margin-bottom: 100px;
+  height: 588px;
+  background-color: #f7f7f7;
+  border-radius: 10px;
+  padding: 44px 52px;
 }
 
 .featuresList {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-  margin-bottom: 44px;
 }
 
 .featureItem {
@@ -148,7 +149,7 @@
   align-items: center;
   gap: 8px;
   padding: 12px 18px;
-  background: #f2f4f7;
+  background-color: #f2f4f7;
   border-radius: 100px;
   font-size: 16px;
   font-weight: 500;
@@ -162,7 +163,7 @@
 }
 
 .vehicleDetails {
-  padding-top: 24px;
+  padding-top: 100px;
 }
 
 .vehicleDetailsTitle {
@@ -171,18 +172,23 @@
   line-height: 1.2;
   color: #101828;
   margin-bottom: 24px;
+
 }
 
 .detailsList {
+  border-top: 1px solid #dadde1;
+  padding-top: 24px;
+  width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 16px;
 }
 
 .detailItem {
   display: flex;
   justify-content: space-between;
-  font-size: 18px;
+  font-weight: 500;
+  font-size: 16px;
   line-height: 1.33;
   color: #101828;
 }
@@ -193,6 +199,7 @@
 
 .reviews {
   margin-bottom: 100px;
+  height: 588px;
 }
 
 .reviewsList {
@@ -250,11 +257,11 @@
 }
 
 .starFilled {
-  fill: #ffc531;
+  color: #ffc531;
 }
 
 .starEmpty {
-  fill: #f2f4f7;
+  color: #f2f4f7;
 }
 
 .reviewComment {
@@ -266,11 +273,12 @@
 .bookingForm {
   position: sticky;
   top: 24px;
-  padding: 44px 48px;
+  padding: 44px 57px;
   background: #ffffff;
   border: 1px solid #dadde1;
   border-radius: 10px;
-  height: fit-content;
+  height: 588px;
+
 }
 
 .formTitle {
@@ -303,6 +311,7 @@
   font-size: 16px;
   line-height: 1.25;
   color: #101828;
+  min-height: 60px;
 }
 
 .input::placeholder,
@@ -311,13 +320,16 @@
 }
 
 .textarea {
-  min-height: 114px;
+  min-height: 118px;
   resize: vertical;
 }
 
 .submitButton {
   margin-top: 10px;
+  margin-bottom: 0;
+  align-self: center;
   padding: 16px 60px;
+  width: 166px;
   background: #e44848;
   border: none;
   border-radius: 200px;
