@@ -55,3 +55,27 @@ export const FullyIntegratedIcon = (props: Omit<IconProps, 'name'>) => (
 export const AlcoveIcon = (props: Omit<IconProps, 'name'>) => (
   <Icon name="alcove" {...props} />
 );
+
+export const PetrolIcon = (props: Omit<IconProps, 'name'>) => (
+  <Icon name="petrol" {...props} />
+);
+
+export const RefrigeratorIcon = (props: Omit<IconProps, 'name'>) => (
+  <Icon name="refrigerator" {...props} />
+);
+
+export const RadioIcon = (props: Omit<IconProps, 'name'>) => (
+  <Icon name="radio" {...props} />
+);
+
+export const MicrowaveIcon = (props: Omit<IconProps, 'name'>) => (
+  <Icon name="microwave" {...props} />
+);
+
+export const GasIcon = (props: Omit<IconProps, 'name'>) => (
+  <Icon name="gas" {...props} />
+);
+
+export const WaterIcon = (props: Omit<IconProps, 'name'>) => (
+  <Icon name="water" {...props} />
+);

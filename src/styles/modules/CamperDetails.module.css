@@ -149,7 +149,7 @@
   align-items: center;
   gap: 8px;
   padding: 12px 18px;
-  background-color: #f2f4f7;
+  background-color: #dadde1;
   border-radius: 100px;
   font-size: 16px;
   font-weight: 500;
@@ -160,6 +160,14 @@
 .featureIcon {
   width: 20px;
   height: 20px;
+  stroke: #101828;
+  fill: none;
+}
+
+/* Для іконок, які мають fill */
+.featureIcon path[fill]:not([fill="none"]) {
+  fill: #101828;
+  stroke: none;
 }
 
 .vehicleDetails {

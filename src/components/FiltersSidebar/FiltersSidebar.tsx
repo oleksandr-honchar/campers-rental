@@ -14,7 +14,7 @@ import {
   VanIcon,
   FullyIntegratedIcon,
   AlcoveIcon,
-} from './icons';
+} from '@/components/ui/icons';
 
 interface FiltersSidebarProps {
   onSearch: (filters: FiltersState) => void;
