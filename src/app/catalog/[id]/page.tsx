@@ -3,8 +3,11 @@
 import { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Image from 'next/image';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { getCamperById } from '@/services/campers';
-// import { useFavoritesStore } from '@/store/useFavoritesStore';
 import { Camper } from '@/types';
 import { Loader } from '@/components/ui/Loader';
 import { ROUTES } from '@/constants/routes';
@@ -21,9 +24,12 @@ export default function CamperDetailsPage() {
   const [error, setError] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<'features' | 'reviews'>('features');
 
-  // const { favorites, toggleFavorite } = useFavoritesStore();
-  // const camperId = params.id as string;
-  // const isFavorite = camperId ? favorites.includes(camperId) : false;
+  // Booking form state
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [bookingDate, setBookingDate] = useState<Date | null>(null);
+  const [comment, setComment] = useState('');
+  const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
     const fetchCamper = async () => {
@@ -40,23 +46,59 @@ export default function CamperDetailsPage() {
       }
     };
 
-    if (params.id) {
-      fetchCamper();
-    }
+    if (params.id) fetchCamper();
   }, [params.id]);
 
-  // Обробка форми бронювання
-  const handleBookingSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    alert('Booking successful! We will contact you soon.');
-    e.currentTarget.reset();
-  };
-
-  // Форматування локації
   const formatLocation = (location: string) => {
     const parts = location.split(', ');
     return parts.length >= 2 ? `${parts[1]}, ${parts[0]}` : location;
   };
+
+  const isValidEmail = (email: string) => {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  };
+
+  const handleBookingSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    if (!name.trim()) {
+      toast.error('Please enter your name.');
+      return;
+    }
+
+    if (!email.trim() || !isValidEmail(email)) {
+      toast.error('Please enter a valid email address.');
+      return;
+    }
+
+    if (!bookingDate) {
+      toast.error('Please select a booking date.');
+      return;
+    }
+
+    if (!bookingDate || bookingDate.getTime() < new Date().setHours(0, 0, 0, 0)) {
+      toast.error('Please select a valid booking date.');
+      return;
+    }
+
+    setSubmitting(true);
+
+    setTimeout(() => {
+      setSubmitting(false);
+      toast.success('Booking successful! We will contact you soon.');
+      setName('');
+      setEmail('');
+      setBookingDate(null);
+      setComment('');
+    }, 1000);
+  };
+
+  const isFormValid =
+  name.trim() !== '' &&
+  email.trim() !== '' &&
+  isValidEmail(email) &&
+  bookingDate instanceof Date;
+
 
   if (loading) {
     return (
@@ -73,13 +115,8 @@ export default function CamperDetailsPage() {
       <div className={styles.container}>
         <div className={styles.error}>
           <h1 className={styles.errorTitle}>Camper not found</h1>
-          <p className={styles.errorMessage}>
-            {error || 'The camper you are looking for does not exist.'}
-          </p>
-          <button 
-            onClick={() => router.push(ROUTES.CATALOG)}
-            className={styles.backButton}
-          >
+          <p className={styles.errorMessage}>{error || 'The camper you are looking for does not exist.'}</p>
+          <button onClick={() => router.push(ROUTES.CATALOG)} className={styles.backButton}>
             Back to Catalog
           </button>
         </div>
@@ -89,29 +126,28 @@ export default function CamperDetailsPage() {
 
   return (
     <div className={styles.container}>
-      {/* Header з назвою, рейтингом, локацією та ціною */}
+      {/* Header */}
       <div className={styles.header}>
         <h1 className={styles.title}>{camper.name}</h1>
-        
-<div className={styles.ratingLocation}>
-  <div className={styles.rating} onClick={() => setActiveTab('reviews')}>
-    <StarIcon className={styles.starIcon} />
-    <span>
-      {camper.rating} ({camper.reviews.length}{' '}
-      {camper.reviews.length === 1 ? 'Review' : 'Reviews'})
-    </span>
-  </div>
-  
-  <div className={styles.location}>
-    <LocationIcon className={styles.locationIcon} />
-    <span>{formatLocation(camper.location)}</span>
-  </div>
-</div>
+
+        <div className={styles.ratingLocation}>
+          <div className={styles.rating} onClick={() => setActiveTab('reviews')}>
+            <StarIcon className={styles.starIcon} />
+            <span>
+              {camper.rating} ({camper.reviews.length} {camper.reviews.length === 1 ? 'Review' : 'Reviews'})
+            </span>
+          </div>
+
+          <div className={styles.location}>
+            <LocationIcon className={styles.locationIcon} />
+            <span>{formatLocation(camper.location)}</span>
+          </div>
+        </div>
 
         <p className={styles.price}>€{camper.price.toFixed(2)}</p>
       </div>
 
-      {/* Галерея фотографій (перші 4 зображення) */}
+      {/* Gallery */}
       <div className={styles.gallery}>
         {camper.gallery.slice(0, 4).map((image, index) => (
           <Image
@@ -126,10 +162,10 @@ export default function CamperDetailsPage() {
         ))}
       </div>
 
-      {/* Опис */}
+      {/* Description */}
       <p className={styles.description}>{camper.description}</p>
 
-      {/* Tabs - виносимо за межі content */}
+      {/* Tabs */}
       <div className={styles.tabs}>
         <div className={styles.tabList}>
           <div
@@ -147,58 +183,63 @@ export default function CamperDetailsPage() {
         </div>
       </div>
 
-      {/* Основний контент: Features/Reviews + Форма бронювання */}
+      {/* Main content */}
       <div className={styles.content}>
-        {/* Ліва частина: Tab Content */}
-        <div>
-          {activeTab === 'features' ? (
-            <CamperFeatures camper={camper} />
-          ) : (
-            <CamperReviews reviews={camper.reviews} />
-          )}
-        </div>
+        {/* Left: Features/Reviews */}
+        <div>{activeTab === 'features' ? <CamperFeatures camper={camper} /> : <CamperReviews reviews={camper.reviews} />}</div>
 
-        {/* Права частина: Форма бронювання */}
+        {/* Right: Booking Form */}
         <div className={styles.bookingForm}>
           <h3 className={styles.formTitle}>Book your campervan now</h3>
-          <p className={styles.formSubtitle}>
-            Stay connected! We are always ready to help you.
-          </p>
+          <p className={styles.formSubtitle}>Stay connected! We are always ready to help you.</p>
 
           <form onSubmit={handleBookingSubmit} className={styles.form}>
             <input
               type="text"
-              name="name"
               placeholder="Name*"
-              required
+              value={name}
+              onChange={(e) => setName(e.target.value)}
               className={styles.input}
             />
             <input
               type="email"
-              name="email"
               placeholder="Email*"
-              required
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               className={styles.input}
             />
-            <input
-              type="date"
-              name="bookingDate"
-              placeholder="Booking date*"
-              required
-              className={styles.input}
+            <DatePicker
+              placeholderText="Booking date*"
+              selected={bookingDate}
+              onChange={(date) => setBookingDate(date)}
+              className={styles.input} // same width as other fields
+              dateFormat="dd/MM/yyyy"
+              minDate={new Date()}
             />
             <textarea
-              name="comment"
               placeholder="Comment"
+              value={comment}
+              onChange={(e) => setComment(e.target.value)}
               className={styles.textarea}
             />
-            <button type="submit" className={styles.submitButton}>
-              Send
+            <button
+              type="submit"
+              className={styles.submitButton}
+              disabled={submitting}
+            >
+              {submitting ? 'Sending...' : 'Send'}
             </button>
           </form>
-        </div>
-            </div>
-    </div>
 
+          {/* <ToastContainer
+            position="top-right"
+            autoClose={5000}
+            hideProgressBar={false}
+            style={{ zIndex: 99999 }}
+          /> */}
+        </div>
+
+      </div>
+    </div>
   );
 }

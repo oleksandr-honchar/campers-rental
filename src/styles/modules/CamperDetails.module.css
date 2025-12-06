@@ -333,6 +333,8 @@
   line-height: 1.25;
   color: #101828;
   min-height: 60px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .input::placeholder,
@@ -445,4 +447,21 @@
 
 .backButton:hover {
   background: #d84343;
+}
+
+/* Ensure react-datepicker input matches other fields */
+.react-datepicker-wrapper,
+.react-datepicker__input-container {
+  width: 100%;
+}
+
+.react-datepicker__input-container input {
+  width: 100%;
+  padding: 18px;
+  background: #f7f7f7;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  line-height: 1.25;
+  color: #101828;
 }

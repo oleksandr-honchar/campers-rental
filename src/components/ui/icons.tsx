@@ -79,3 +79,7 @@ export const GasIcon = (props: Omit<IconProps, 'name'>) => (
 export const WaterIcon = (props: Omit<IconProps, 'name'>) => (
   <Icon name="water" {...props} />
 );
+
+export const FavoriteIcon = (props: Omit<IconProps, 'name'>) => (
+  <Icon name="heart" {...props} />
+);

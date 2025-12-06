@@ -92,3 +92,23 @@ p {
 ::-webkit-scrollbar-thumb:hover {
   background: var(--secondary-color);
 }
+
+.Toastify__toast-container {
+  z-index: 9999 !important;
+}
+.Toastify__toast--success {
+  background-color: var(--success-color);
+  color: var(--white);
+}
+.Toastify__toast--error {
+  background-color: var(--error-color);
+  color: var(--white);
+}
+.Toastify__toast--warning {
+  background-color: var(--warning-color);
+  color: var(--white);
+}
+.Toastify__toast--info {
+  background-color: var(--info-color);
+  color: var(--white);
+}
