@@ -21,7 +21,6 @@ interface FiltersSidebarProps {
   initialFilters?: FiltersState;
 }
 
-// Список обладнання для відображення (згідно з ТЗ)
 const EQUIPMENT_OPTIONS: Array<{ id: EquipmentType; label: string }> = [
   { id: 'AC', label: 'AC' },
   { id: 'transmission', label: 'Automatic' },
@@ -30,7 +29,6 @@ const EQUIPMENT_OPTIONS: Array<{ id: EquipmentType; label: string }> = [
   { id: 'bathroom', label: 'Bathroom' }
 ];
 
-// Мапа іконок для обладнання
 const EQUIPMENT_ICONS: Record<EquipmentType, React.ComponentType<{ className?: string }>> = {
   AC: ACIcon,
   transmission: AutomaticIcon,
@@ -82,13 +80,13 @@ export default function FiltersSidebar({
       const isSelected = prev.equipment.includes(equipment);
       
       if (isSelected) {
-        // Видаляємо якщо вже обрано
+
         return {
           ...prev,
           equipment: prev.equipment.filter(item => item !== equipment)
         };
       } else {
-        // Додаємо якщо не обрано
+
         return {
           ...prev,
           equipment: [...prev.equipment, equipment]

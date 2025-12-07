@@ -9,7 +9,7 @@ export const generateMetadata = (): Metadata => ({
   openGraph: {
     title: "Campers Rental - Home",
     description: "Find and rent the perfect camper for your next adventure.",
-    url: "http://localhost:3000",
+    url: "https://campers-rental-omega.vercel.app/",
     siteName: "Campers Rental",
   },
   twitter: {

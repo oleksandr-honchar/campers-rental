@@ -1,5 +1,3 @@
-// Компонент для використання SVG спрайту
-
 interface IconProps {
   name: string;
   className?: string;
@@ -15,7 +13,6 @@ export const Icon = ({ name, className, width = 32, height = 32 }: IconProps) =>
   );
 };
 
-// Експорт окремих іконок для зручності
 export const LocationIcon = (props: Omit<IconProps, 'name'>) => (
   <Icon name="map" width={20} height={20} {...props} />
 );

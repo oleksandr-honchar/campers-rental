@@ -24,7 +24,6 @@ export default function CamperDetailsPage() {
   const [error, setError] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<'features' | 'reviews'>('features');
 
-  // Booking form state
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [bookingDate, setBookingDate] = useState<Date | null>(null);

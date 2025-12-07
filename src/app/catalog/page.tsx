@@ -44,7 +44,7 @@ export default function CatalogPage() {
       
       equipment.forEach((item) => {
         if (item === 'AC') params.AC = true;
-        if (item === 'transmission') params.transmission = 'automatic';  // ← Додайте цей рядок
+        if (item === 'transmission') params.transmission = 'automatic';
         if (item === 'kitchen') params.kitchen = true;
         if (item === 'bathroom') params.bathroom = true;
         if (item === 'TV') params.TV = true;
@@ -67,13 +67,13 @@ export default function CatalogPage() {
       const newTotal = reset ? data.items.length : campers.length + data.items.length;
       setHasMore(newTotal < data.total);
 } catch (error) {
-      // Якщо помилка 404 - просто показуємо порожній список (без логування)
+    
       if (error && typeof error === 'object' && 'status' in error && error.status === 404) {
         setCampers([]);
         setTotal(0);
         setHasMore(false);
       } else {
-        // Логуємо тільки реальні помилки (не 404)
+
         console.error('Error fetching campers:', error);
       }
     } finally {
@@ -94,17 +94,17 @@ export default function CatalogPage() {
   };
 
   const handleSearch = (filters: FiltersState) => {
-    // Оновлюємо стор з новими фільтрами
+
     setLocation(filters.location);
     setForm(filters.form);
     
-    // Оновлюємо equipment: спочатку очищаємо, потім додаємо нові
+
     clearEquipment();
     filters.equipment.forEach(item => {
       toggleEquipment(item);
     });
 
-    // Скидаємо сторінку та кемпери
+
     resetCampers();
     setCurrentPage(1);
   };

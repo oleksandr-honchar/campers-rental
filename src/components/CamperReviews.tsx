@@ -8,7 +8,7 @@ interface CamperReviewsProps {
 }
 
 const CamperReviews: React.FC<CamperReviewsProps> = ({ reviews }) => {
-  // Функція для генерації зірок
+
   const renderStars = (rating: number) => {
     return Array.from({ length: 5 }, (_, index) => (
       <StarIcon
@@ -18,7 +18,6 @@ const CamperReviews: React.FC<CamperReviewsProps> = ({ reviews }) => {
     ));
   };
 
-  // Функція для отримання першої літери імені
   const getInitial = (name: string) => {
     return name.charAt(0).toUpperCase();
   };
