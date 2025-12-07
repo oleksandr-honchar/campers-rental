@@ -26,9 +26,13 @@ export function CamperCard({ camper }: CamperCardProps) {
     toggleFavorite(camper.id);
   };
 
+  const handleGoToReviews = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    router.push(`/catalog/${camper.id}#reviews`);
+  };
+
   const mainImage = camper.gallery?.[0]?.thumb || '/images/placeholder-camper.jpg';
 
-  // Масив features для відображення (перші 4-5)
   const displayFeatures = [
     { condition: camper.transmission, icon: 'automatic', label: camper.transmission },
     { condition: camper.engine, icon: 'petrol', label: camper.engine },
@@ -46,7 +50,7 @@ export function CamperCard({ camper }: CamperCardProps) {
           width={292}
           height={320}
           className={styles.image}
-          priority={false}
+          priority={true}
         />
       </div>
 
@@ -67,7 +71,7 @@ export function CamperCard({ camper }: CamperCardProps) {
           </div>
 
           <div className={styles.meta}>
-            <div className={styles.rating}>
+            <div className={styles.rating} onClick={handleGoToReviews}>
               <StarIcon className={styles.ratingIcon} />
               <span className={styles.ratingText}>
                 {camper.rating} ({camper.reviews.length} Reviews)

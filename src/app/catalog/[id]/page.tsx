@@ -33,13 +33,25 @@ export default function CamperDetailsPage() {
 
   const tabsRef = useRef<HTMLDivElement | null>(null);
 
-  useEffect(() => {
+useEffect(() => {
     const fetchCamper = async () => {
       try {
         setLoading(true);
         setError(null);
         const data = await getCamperById(params.id as string);
         setCamper(data);
+
+        const hash = window.location.hash.substring(1); 
+        
+        if (hash === 'reviews') {
+            setActiveTab('reviews');
+            const timer = setTimeout(() => {
+            scrollToTabs(); 
+            }, 400);
+
+            return () => clearTimeout(timer); 
+        }
+
       } catch (err) {
         console.error(err);
         setError('Failed to load camper details');
@@ -48,7 +60,8 @@ export default function CamperDetailsPage() {
       }
     };
     if (params.id) fetchCamper();
-  }, [params.id]);
+    
+  }, [params.id, router]);
 
   const formatLocation = (location: string) => {
     const parts = location.split(', ');
